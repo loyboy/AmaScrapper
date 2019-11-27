@@ -1,0 +1,24 @@
+
+### 
+// "clientID": "C-00000031"
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkYmRkNzdkMWQ1MmEzMWQzNzQ3ZjRmMiIsImNsaWVudElEIjoiQy0wMDAwMDAzMSIsImlhdCI6MTU3MjcyMjU1NywiZXhwIjoxNTcyODA4OTU3LCJzdWIiOiJDLTAwMDAwMDMxIn0.ZxdTbd4G2xquOH8FVdQAtzix6L2cPyfvgpmFoPH2zo8
+GET https://www.amazon.com/s?k=young+adult+fantasy HTTP/1.1
+sec-fetch-mode: cors
+accept-encoding: gzip, deflate, br
+accept-language: en-US,en;q=0.9
+accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+authority: www.amazon.com
+
+###
+POST https://hooks.zapier.com/hooks/catch/4871883/o4pgl2m/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Emmanuel",
+    "pass": "thepass"
+}
+###cookie: session-id=140-9368975-4546557; session-id-time=2082787201l; ubid-main=131-6990987-2536233; aws-priv=eyJ2IjoxLCJldSI6MCwic3QiOjB9; aws_lang=en; aws-target-static-id=1572988998888-358221; aws-target-data=^%^7B^%^22support^%^22^%^3A^%^221^%^22^%^7D; s_fid=0373E76136381E36-28858D3FC0E8A5FC; s_cc=true; aws-mkto-trk=id^%^3A112-TZM-766^%^26token^%^3A_mch-aws.amazon.com-1572989015909-60603; s_eVar60=ha^%^7CAdoption_Campaign_pac-edm-2019-lightsail-sitemerch-adoption-ftvistors^%^7Cawssm-1527^%^7Cribbon^%^7Cha_a131L000005uLb7QAE^%^7Eha_awssm-1527; s_sq=^%^5B^%^5BB^%^5D^%^5D; aws-business-metrics-last-visit=1572989177016; aws-ubid-main=334-6868414-7737724; regStatus=registered; s_vn=1604524999428^%^26vn^%^3D2; c_m=undefinedwww.google.comSearch^%^20Engine; aws-target-visitor-id=1572988998900-924698.26_17; s_dslv=1572993754706; s_nr=1572993754716-Repeat; aws-userInfo=^%^7B^%^22arn^%^22^%^3A^%^22arn^%^3Aaws^%^3Aiam^%^3A^%^3A839599842255^%^3Aroot^%^22^%^2C^%^22alias^%^22^%^3A^%^22^%^22^%^2C^%^22username^%^22^%^3A^%^22LoyGreat^%^22^%^2C^%^22keybase^%^22^%^3A^%^229^%^2FWH5^%^2FbxothR86XwfQdy6A8fRdgXplzKn6kXGLgyg^%^2BQ^%^5Cu003d^%^22^%^2C^%^22issuer^%^22^%^3A^%^22http^%^3A^%^2F^%^2Fsignin.aws.amazon.com^%^2Fsignin^%^22^%^7D; skin=noskin; x-main=^\^"DCrWHpwGQPVdZY8MbL52F4UZ95S6IGj7^@wmJ32n9AKfWAGlRJIni?bSmS7tTZCrb^\^"; at-main=Atza^|IwEBIG7bOUxMLqSlLxNxQ9VP8xlvZMbBJhyRzHh_n-uiIVjWkNKB1eFSrpsnuzfi4HPXUBRZ3iyJ4P7pbW8QmhsahRc1quEqg9NwD66lxxDxWn-SovN4454wBOEWzanmz6rebjrwOY-8l8iO2Jv9w_Kn_qZBYBzsDnw_FmkfwnOTuT06JMgHiYLA5cWnkN9_vxaH2ntqfINq37N_m_dUaTiQoT2gFTtxDEL7RT4WMl_IaAbHls2lZNXA3-MpEGYkbp2rWCjEj6tp5Uh8sHEQ8baNcnHYR2kdihggd3AgTsoxjmYjlpwPd0mL7grlvROdDdhF1IdY4gq3IW9hRsPgRfV5p7OYKJd27w3c3_3kThZ4NZhyn_H1DW-KVObgILAw0ePSiLZZD20Q2A3wxQkl2FpN7xfnQJOb2BxFEwpAyAyPU5eyZGa5qWrroJS_vask5lyHSu0; sess-at-main=^\^"AhdIBBrAQk3tbI5LTjhBiLZK8RBeBARwizBxFgg3Od4=^\^"; sst-main=Sst1^|PQH0paavEnITbFdFBe3KYb_sC3jDuOO9kXBqHFY_W3jqlxfBK_xfs3sW4nWhSEp_GRTjPpJxeTc9AFgFpAIKG5N9_vIkfmCfheA60FjV7tLN5Zd2QIdhMqyetZpfP_9OJrLz5hzGJXNRYG8JOKXAEvdGq78-eUZdV1kQhbi18GowHttGDN5766-kteR9CZcS_OKeys7wIX181X0J3qDz1CHOqczb9hOdwjgFbpVhz8_4AonIPdgfQ6iUxmy72j7adq9-TJNgkL-3w5SkXtprRshhrPjd4KGFQlx1_yU7T1zzcbT42B_xmi-QfP-gWi5hGa6-yQuT1R64kf9mOUFYm68b2A; lc-main=en_US; i18n-prefs=USD; sp-cdn=^\^"L5Z9:NG^\^"; x-wl-uid=1AGMFjWdPtorEgJQE6Ht8cX9cGYCR3JSjx449WoECRFzdF+cBBREE6dkFVAw2TfRPkfnltTCdhB659U/mjOITsgLBiQmNYHAH8EDgSgAYoGI4tXNWTIVqv0wxP3f3PokBLAh13sB+EzA=; session-token=ZYszeASCqtPmVfwdy6uf/0jrGoxCa/JvCwruaKnzcdbE/9D6b9+7v9r+dmzq8RlbGpG2mO/jXxVdJGzdnvFKylCyf85ep2eRMcihM7J5LHNd9DvwEmhZKTgf1K00+Rmbf62epQFvVaxV82u9WRPDAX0PA0ALgcX/B9s4PTQyEpvI4wvp7EhtPe6uO83D3MhfOU9Gmmvv6qlh7qIe8/9UkTAkFJN1tUkRCWyBW2RDIeFHhzekvwy/NU6Q2N/YWGDbWqeQ08TR4KYYoGyb9hJINw==; csm-hit=tb:s-DM5PPKG9SJ76N876HVBA^|1574089359475^&t:1574089359475^&adb:adblk_no" 
+
+
+###{  "id" : "15Y35qUBk8tKxL3CmdtSGV" }
+     

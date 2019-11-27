@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Amazon Scarper for Book Ranking </title>
+  
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/css/bulma.min.css">
+    <link rel="stylesheet" href="/css/bulma-docs.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src='/socket.io/socket.io.js'></script>
+    
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+        $notification = $delete.parentNode;
+        $delete.addEventListener('click', () => {
+          $notification.parentNode.removeChild($notification);
+        });
+      });
+    });
+  </script>
+</head>
+
+<body>
+
+    <div class="container is-fluid" >
+       
+        <section class="section" id="notifications">
+            <h2 class="title is-link"> Engage an Amazon Website Using Keyword + Book Titles</h2>
+            <hr>    
+            <% if(uploaded !== null){ %>
+              <div class="notification is-info">
+                <button class="delete"></button>
+                  Book and Keyword files have been updated
+              </div>
+            <% } %>
+
+            <div class="columns is-multiline">
+              
+              <div class="column is-half">
+               
+                <div class="bd-index-custom bd-is-after">
+                 
+                  <form action="/testUpload" method="post" enctype="multipart/form-data">
+                  <div class="bd-index-custom-example">
+                   
+                    <p class="subtitle">
+                     Upload Books and Keyword FIles
+                    </p>
+
+                    <div class="field">
+                      <div class="control">
+                        <label class="label"> Books: </label>
+                        <input class="input" type="file" required placeholder="" name="book" accept=".csv" >
+                      </div>
+                    </div>
+                    
+                    <div class="field">
+                      <div class="control">
+                          <label class="label"> Keyword: </label>
+                        <input class="input" type="file" required  name="keyword"  accept=".csv" >
+                      </div>
+                    </div>
+
+                    <div class="buttons">
+                      <input type="submit" class="button is-dark" value="Update the Book + Keyword">
+                     
+                    </div>
+
+                  </div>
+                </form>
+
+                <br>
+                <table class="table is-hoverable is-bordered">
+                    <thead>
+                        <tr>
+                          <th> Current Book File</th>
+                          <th> Current Keyword File</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                          <td> 
+                            <% if (bookfile !== null){  %> 
+                              <%- bookfile %>
+                            <% } %> 
+                           
+                          </td>
+                          <td> 
+                            <% if (kwordfile !== null){  %> 
+                              <%- kwordfile %>
+                            <% } %>  
+                          
+                          </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                </div>
+              </div>
+
+              <div class="column is-half">
+                  <div class="card">
+                      <div class="card-content">
+                      <h2 class="title">
+                      Poll Data from Amazon Website Right Now?
+                      </h2>
+                      <form action="/polldata" method="post" >
+                          <div class="field">
+
+                            <div class="control">
+                                <label class="label"> Choose where you wish to search : </label>
+                                <select name="search" id="pollselect">
+                                  <option value="All"> All departments </option>  
+                                  <option value="Ebook"> Kindle </option>   
+                                  <option value="book"> Books </option>                  
+                                </select>
+                            </div>
+
+                            
+                          </div>
+
+                          <div class="field">
+
+                            <div class="control">
+                                <label class="label"> Choose maximum number of Pages: </label>
+                                <select name="maxpages">
+                                  <option value="2"> 2 </option>  
+                                  <option value="3"> 3 </option>   
+                                  <option value="4"> 4 </option>    
+                                  <option value="5"> 5 </option>    
+                                  <option value="6"> 6 </option>      
+                                  <option value="7"> 7 </option>   
+                                  <option value="8"> 8 </option> 
+                                  <option value="9"> 9 </option>
+                                  <option value="10"> 10 </option>      
+                                  <option value="11"> 11 </option> 
+                                  <option value="12"> 12 </option> 
+                                  <option value="13"> 13 </option> 
+                                  <option value="14"> 14 </option> 
+                                  <option value="15"> 15 </option> 
+                                  <option value="16"> 16 </option> 
+                                  <option value="17"> 17 </option> 
+                                  <option value="18"> 18 </option>
+                                  <option value="19"> 19 </option>  
+                                  <option value="20"> 20 </option> 
+                                </select>
+                            </div>
+                            
+                            
+                          </div>
+
+                          <footer class="card-footer">
+                                <p class="card-footer-item">
+                                  <span>
+                                      <input type="submit" class="button is-dark" id="mybtn" value="Poll Data Now..">
+                                  </span>
+                                  <span>
+                                    <input type="button" id="Pause" class="button is-info" style="display: none;" value="Pause/Continue">
+                                </span>
+                                </p>
+                          </footer>
+
+                      </form>
+
+                        <h4  id="statustitle" class="title">
+
+                        </h4>
+                        <p>  <progress id="progressbar" class="progress"  max="100"> </progress> </p>
+                       
+
+                        <table class="table is-hoverable is-bordered">
+                          <thead>
+                              <tr>
+                                <th> Current Page</th>
+                                <th> Current Keyword </th>
+                                <th> Current Book </th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                <td id="cpage">                                 
+                                 
+                                </td>
+                                <td id="ckey">                                  
+                                
+                                </td>
+                                <td id="cbook">                                  
+                                
+                                </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                      </div>
+                  </div>
+              </div>
+              
+              <div class="column is-half">                
+                    <div class="card">
+                            <div class="card-content">
+                            <p class="title">
+                            View Report of Search based on the Current Book and Keyword Files?
+                            </p>
+                            <table class="table is-hoverable is-bordered" style="overflow-y: scroll; max-height: 400px;" >
+                                <thead>
+                                    <tr>
+                                      <th> Job ID</th>
+                                      <th> Department </th>
+                                      <th> Date/Time </th>
+                                      <th> Book File Used </th>
+                                      <th> Keyword File Used </th>
+                                      <th> Result </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody1">
+                                </tbody>
+                            </table>
+                            </div>
+                    </div>
+                </div>            
+            </div>
+          </section>
+    </div>
+
+    <footer class="footer">
+            <div class="container">
+              <div class="content has-text-centered">
+              
+                <p>
+                  <strong>Fiverr Order</strong> done for
+                  <a href="" target="_blank"> Steve Lebel</a>.
+                  <br> Based on
+                  <a href="http://bulma.io" target="_blank" onclick="ga('send', 'event', 'footer', 'click', 'bulma');">Bulma</a>. Icons from
+                  <a href="http://fontawesome.io/" target="_blank" onclick="ga('send', 'event', 'footer', 'click', 'font-awesome');">Font Awesome</a>. Web Fonts from
+                  <a href="https://fonts.google.com/" target="_blank" onclick="ga('send', 'event', 'footer', 'click', 'google');">Google</a>.
+                  <br> 
+                
+                </p>
+              
+              </div>
+            </div>
+          </footer>
+
+</body>
+
+<script>
+
+  function showstatus(data){
+    document.getElementById('progressbar').innerHTML = JSON.parse(data).percent+" %"; 
+    document.getElementById('progressbar').value = JSON.parse(data).percent;
+    document.getElementById('cpage').innerHTML = JSON.parse(data).page;
+    document.getElementById('ckey').innerHTML = JSON.parse(data).keyword; 
+     document.getElementById('cbook').innerHTML = JSON.parse(data).bookname;
+    
+  }
+  function task(data){
+    let readystate = JSON.parse(data).status
+    
+    if(readystate === 'pages'){
+      document.getElementById('statustitle').innerHTML = 'Status of Current Search: <b style="color: red"> Working on retrieving the Pages.... </b>'
+      document.getElementById("Pause").style.display = "block"; 
+      document.getElementById("mybtn").style.display = "none"; 
+    }
+    else if(readystate === 'save'){
+      document.getElementById('statustitle').innerHTML = 'Status of Current Search: <b style="color: orange"> Found, Saving the Page Rankings.... </b>'
+      document.getElementById("Pause").style.display = "block"; 
+      document.getElementById("mybtn").style.display = "none"; 
+    }
+    else if(readystate === 'notfound'){
+      document.getElementById('statustitle').innerHTML = 'Status of Current Search: <b style="color: red"> Not Found on that Page...Moving on </b>'
+      document.getElementById("Pause").style.display = "block"; 
+      document.getElementById("mybtn").style.display = "none"; 
+    }
+    else if(readystate === 'complete'){
+      document.getElementById('statustitle').innerHTML = 'Status of Current Search: <b style="color: green"> Completed!!.... </b>'
+      document.getElementById("Pause").style.display = "none";
+    }
+    else if(readystate === 'stop'){
+      document.getElementById('statustitle').innerHTML = 'Status of Current Search: <b style="color: blue"> Paused!!.... </b>'
+      document.getElementById("mybtn").style.display = "block"; 
+    }
+    else if(readystate === 'waiting'){
+      document.getElementById('statustitle').innerHTML = 'Status of Current Search: <b style="color: violet"> Trying to resume, please wait.... </b>'
+      document.getElementById("Pause").style.display = "none";
+      document.getElementById("mybtn").style.display = "none"; 
+    }
+   
+   
+  }
+
+  function stoporstart(){
+      socket.send('stoporstart');
+      console.log("Start or STop")
+  }
+
+  var socket = io();
+  socket.on('status', showstatus)
+  socket.on('taskcomplete', task)
+
+  document.getElementById("Pause").addEventListener("click", stoporstart);
+
+ 
+    // 1. Create a new XMLHttpRequest object
+    let xhr = new XMLHttpRequest();
+
+    // 2. Configure it: GET-request for the URL /article/.../load
+    xhr.open('GET', '/loadresult');
+
+    // 3. Send the request over the network
+    xhr.send();
+
+    // 4. This will be called after the response is received
+    xhr.onload = function() {
+      if (xhr.status != 200) { // analyze HTTP status of the response
+        alert(`Error ${xhr.status}: ${xhr.statusText}`); // e.g. 404: Not Found
+      } else { // show the result
+        console.log("Result here: "+ JSON.parse(xhr.response).length)
+        let responseObj = JSON.parse(xhr.response);
+        var i = 0;     
+
+        if (responseObj.length > 0){
+         for ( let datarow of responseObj ){ 
+
+           var m = new Date(datarow._date)
+           var dateString = m.getUTCFullYear() +"/"+ (m.getUTCMonth()+1) +"/"+ m.getUTCDate() + " " + m.getUTCHours() + ":" + m.getUTCMinutes();
+
+                  var tablex = document.getElementById('tbody1').insertRow(i);
+                
+                  var cell0 = tablex.insertCell(0);
+                  var cell1 = tablex.insertCell(1);
+                  var cell2 = tablex.insertCell(2);
+                  var cell3 = tablex.insertCell(3);
+                  var cell4 = tablex.insertCell(4);
+                  var cell5 = tablex.insertCell(5);
+
+                  let bfbut = `<a href='/read-bookfile/${datarow.bookfile}'> Download Book File (.CSV) </a>`;
+                  let kybut = `<a href='/read-kyfile/${datarow.keywordfile}'> Download Keyword File (.CSV) </a>`;
+                  let resultbut = `<a href='/read-resultfile/${btoa(datarow.result)}'> Download Result File (.CSV) </a>`;
+                  cell0.innerHTML = "<strong>"+  datarow.id + "</strong>";
+                  cell1.innerHTML = "<strong>"+ datarow.dept + "</strong>";
+                  cell2.innerHTML = "<strong>"+ dateString + "</strong>";                
+                  cell3.innerHTML = "<strong>"+ bfbut + "</strong>";
+                  cell4.innerHTML = "<strong>"+ kybut + "</strong>";
+                  cell5.innerHTML = "<strong>"+ resultbut + "</strong>";
+                  i++
+          }
+      }
+      
+    };
+
+  }
+
+</script>
+
+</html>
